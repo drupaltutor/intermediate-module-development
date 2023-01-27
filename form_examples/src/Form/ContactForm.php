@@ -44,6 +44,17 @@ class ContactForm extends FormBase {
     return $form;
   }
 
+  public function validateForm(array &$form, FormStateInterface $form_state) {
+    $email = $form_state->getValue('email');
+    if (!str_ends_with($email, '.edu')) {
+      $form_state->setError(
+        $form['email'],
+        $this->t('Only .edu addresses are allowed.')
+      );
+    }
+    parent::validateForm($form, $form_state);
+  }
+
   public function submitForm(array &$form, FormStateInterface $form_state) {
     $this->messenger()->addStatus(
       $this->t('Thank you for contacting us. We will respond as soon as possible.')
