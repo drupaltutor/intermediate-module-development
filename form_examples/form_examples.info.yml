@@ -1,0 +1,5 @@
+name: Form Examples
+type: module
+description: Demonstrates how to create custom forms.
+package: DrupalTutor Training
+core_version_requirement: ^10
