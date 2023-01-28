@@ -1,0 +1,14 @@
+<?php
+
+/**
+ * Implements hook_mail().
+ */
+function form_examples_mail($key, &$message, $params) {
+  if ($key === 'contact_form') {
+    $message['subject'] = t('Message from the website contact form');
+    $message['body'][] = t('The following message was entered on the website.');
+    $message['body'][] = t('Name: @name', ['@name' => $params['name']]);
+    $message['body'][] = t('Email: @email', ['@email' => $params['email']]);
+    $message['body'][] = $params['message'];
+  }
+}
