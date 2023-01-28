@@ -4,8 +4,25 @@ namespace Drupal\form_examples\Form;
 
 use Drupal\Core\Form\FormBase;
 use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\Mail\MailManagerInterface;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class ContactForm extends FormBase {
+
+  /**
+   * @var MailManagerInterface
+   */
+  protected MailManagerInterface $mailManager;
+
+  public function __construct(MailManagerInterface $mail_manager) {
+    $this->mailManager = $mail_manager;
+  }
+
+  public static function create(ContainerInterface $container) {
+    return new static(
+      $container->get('plugin.manager.mail')
+    );
+  }
 
   public function getFormId() {
     return 'form_examples.contact_form';
