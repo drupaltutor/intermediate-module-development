@@ -73,10 +73,32 @@ class ContactForm extends FormBase {
   }
 
   public function submitForm(array &$form, FormStateInterface $form_state) {
+    $department = $form_state->getValue('department');
+    switch ($department) {
+      case 'billing':
+        $to = 'billing@example.com';
+        break;
+
+      case 'tech_support':
+        $to = 'support@example.com';
+        break;
+
+      default:
+        $to = 'contact@example.com';
+    }
+
+    $this->mailManager->mail(
+      'form_examples',
+      'contact_form',
+      $to,
+      \Drupal::languageManager()->getDefaultLanguage()->getId(),
+      $form_state->getValues(),
+      $form_state->getValue('email')
+    );
+
     $this->messenger()->addStatus(
       $this->t('Thank you for contacting us. We will respond as soon as possible.')
     );
-    dsm($form_state->getValues());
   }
 
 }
