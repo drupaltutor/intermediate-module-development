@@ -6,6 +6,7 @@ use Drupal\Core\Form\FormStateInterface;
  * Implements hook_form_alter().
  */
 function form_examples_form_alter(array &$form, FormStateInterface $form_state, $form_id) {
+  dsm($form_id);
   if ($form_id == 'user_login_form') {
     $form['name']['#description'] = t('Enter your username, as assigned by IT.');
     $form['pincode'] = [
@@ -31,6 +32,13 @@ function form_examples_log_logins(array &$form, FormStateInterface $form_state) 
   \Drupal::messenger()->addWarning(t('Your login as been logged for future reference.'));
 }
 
+/**
+ * Implements hook_form_FORM_ID_alter().
+ */
+function form_examples_form_user_admin_permissions_alter(&$form, FormStateInterface $form_state, $form_id) {
+  dsm($form);
+  \Drupal::messenger()->addWarning('Any changes to website permissions must be approved by the Security Team!');
+}
 
 /**
  * Implements hook_mail().
