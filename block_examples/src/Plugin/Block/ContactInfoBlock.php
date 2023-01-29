@@ -3,6 +3,7 @@
 namespace Drupal\block_examples\Plugin\Block;
 
 use Drupal\Core\Block\BlockBase;
+use Drupal\Core\Form\FormStateInterface;
 
 /**
  * Provides a 'Contact Info' block.
@@ -32,4 +33,34 @@ class ContactInfoBlock extends BlockBase {
     ];
     return $build;
   }
+
+  public function defaultConfiguration() {
+    return [
+      'phone' => '',
+      'email' => '',
+    ];
+  }
+
+  public function blockForm($form, FormStateInterface $form_state) {
+    $form['phone'] = [
+      '#type' => 'textfield',
+      '#title' => $this->t('Phone Number'),
+      '#required' => TRUE,
+      '#default_value' => $this->configuration['phone'],
+    ];
+    $form['email'] = [
+      '#type' => 'email',
+      '#title' => $this->t('Email'),
+      '#required' => TRUE,
+      '#default_value' => $this->configuration['email'],
+    ];
+    return $form;
+  }
+
+  public function blockSubmit($form, FormStateInterface $form_state) {
+    $this->configuration['phone'] = $form_state->getValue('phone');
+    $this->configuration['email'] = $form_state->getValue('email');
+    parent::blockSubmit($form, $form_state);
+  }
+
 }
