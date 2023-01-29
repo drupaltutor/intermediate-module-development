@@ -4,6 +4,10 @@ namespace Drupal\block_examples\Plugin\Block;
 
 use Drupal\Core\Block\BlockBase;
 use Drupal\Core\Cache\CacheableMetadata;
+use Drupal\Core\Entity\EntityTypeManagerInterface;
+use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
+use Drupal\Core\Session\AccountInterface;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * Provides a 'Hello User' block.
@@ -14,7 +18,36 @@ use Drupal\Core\Cache\CacheableMetadata;
  *   category = @Translation("DrupalTutor Training")
  * )
  */
-class HelloUserBlock extends BlockBase {
+class HelloUserBlock extends BlockBase implements ContainerFactoryPluginInterface {
+
+  /**
+   * @var AccountInterface
+   */
+  protected AccountInterface $currentUser;
+
+  /**
+   * @var EntityTypeManagerInterface
+   */
+  protected EntityTypeManagerInterface $entityTypeManager;
+
+  public function __construct(array $configuration, $plugin_id, $plugin_definition, AccountInterface $current_user, EntityTypeManagerInterface $entity_type_manager) {
+    parent::__construct($configuration, $plugin_id, $plugin_definition);
+    $this->currentUser = $current_user;
+    $this->entityTypeManager = $entity_type_manager;
+  }
+
+  /**
+   * {@inheritDoc}
+   */
+  public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition) {
+    return new static(
+      $configuration,
+      $plugin_id,
+      $plugin_definition,
+      $container->get('current_user'),
+      $container->get('entity_type.manager')
+    );
+  }
 
   /**
    * {@inheritdoc}
@@ -23,11 +56,9 @@ class HelloUserBlock extends BlockBase {
     $cache = new CacheableMetadata();
     $cache->addCacheContexts(['user']);
 
-    $account = \Drupal::currentUser();
-    $entity_type_manager = \Drupal::entityTypeManager();
-    $user_storage = $entity_type_manager->getStorage('user');
+    $user_storage = $this->entityTypeManager->getStorage('user');
     /** @var \Drupal\user\UserInterface $user */
-    $user = $user_storage->load($account->id());
+    $user = $user_storage->load($this->currentUser->id());
     $cache->addCacheableDependency($user);
 
     $build = [
