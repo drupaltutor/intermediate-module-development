@@ -2,6 +2,7 @@
 
 namespace Drupal\block_examples\Plugin\Block;
 
+use Drupal\Core\Access\AccessResult;
 use Drupal\Core\Block\BlockBase;
 use Drupal\Core\Cache\CacheableMetadata;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
@@ -67,6 +68,16 @@ class HelloUserBlock extends BlockBase implements ContainerFactoryPluginInterfac
 
     $cache->applyTo($build);
     return $build;
+  }
+
+  /**
+   * @inheritDoc
+   */
+  protected function blockAccess(AccountInterface $account) {
+    if ($account->isAnonymous()) {
+      return AccessResult::forbidden();
+    }
+    return parent::blockAccess($account);
   }
 
 }
