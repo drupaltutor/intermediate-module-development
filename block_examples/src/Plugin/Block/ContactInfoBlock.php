@@ -24,12 +24,12 @@ class ContactInfoBlock extends BlockBase {
     $build['phone'] = [
       '#type' => 'html_tag',
       '#tag' => 'div',
-      '#value' => $this->t('Phone Number: @phone', ['@phone' => '555-666-7777']),
+      '#value' => $this->t('Phone Number: @phone', ['@phone' => $this->configuration['phone']]),
     ];
     $build['email'] = [
       '#type' => 'html_tag',
       '#tag' => 'div',
-      '#value' => $this->t('Email: @email', ['@email' => 'someone@example.com']),
+      '#value' => $this->t('Email: @email', ['@email' => $this->configuration['email']]),
     ];
     return $build;
   }
