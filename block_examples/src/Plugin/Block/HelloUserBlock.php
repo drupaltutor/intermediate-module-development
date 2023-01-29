@@ -7,6 +7,7 @@ use Drupal\Core\Block\BlockBase;
 use Drupal\Core\Cache\CacheableMetadata;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
+use Drupal\Core\Routing\RouteMatchInterface;
 use Drupal\Core\Session\AccountInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
@@ -31,10 +32,16 @@ class HelloUserBlock extends BlockBase implements ContainerFactoryPluginInterfac
    */
   protected EntityTypeManagerInterface $entityTypeManager;
 
-  public function __construct(array $configuration, $plugin_id, $plugin_definition, AccountInterface $current_user, EntityTypeManagerInterface $entity_type_manager) {
+  /**
+   * @var RouteMatchInterface
+   */
+  protected RouteMatchInterface $routeMatch;
+
+  public function __construct(array $configuration, $plugin_id, $plugin_definition, AccountInterface $current_user, EntityTypeManagerInterface $entity_type_manager, RouteMatchInterface $route_match) {
     parent::__construct($configuration, $plugin_id, $plugin_definition);
     $this->currentUser = $current_user;
     $this->entityTypeManager = $entity_type_manager;
+    $this->routeMatch = $route_match;
   }
 
   /**
@@ -46,7 +53,8 @@ class HelloUserBlock extends BlockBase implements ContainerFactoryPluginInterfac
       $plugin_id,
       $plugin_definition,
       $container->get('current_user'),
-      $container->get('entity_type.manager')
+      $container->get('entity_type.manager'),
+      $container->get('current_route_match')
     );
   }
 
@@ -75,6 +83,9 @@ class HelloUserBlock extends BlockBase implements ContainerFactoryPluginInterfac
    */
   protected function blockAccess(AccountInterface $account) {
     if ($account->isAnonymous()) {
+      return AccessResult::forbidden();
+    }
+    if ($this->routeMatch->getRouteName() !== 'entity.user.canonical') {
       return AccessResult::forbidden();
     }
     return parent::blockAccess($account);
