@@ -9,6 +9,7 @@ use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Drupal\Core\Routing\RouteMatchInterface;
 use Drupal\Core\Session\AccountInterface;
+use Drupal\user\UserInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -86,6 +87,11 @@ class HelloUserBlock extends BlockBase implements ContainerFactoryPluginInterfac
       return AccessResult::forbidden();
     }
     if ($this->routeMatch->getRouteName() !== 'entity.user.canonical') {
+      return AccessResult::forbidden();
+    }
+    /** @var UserInterface $user */
+    $user = $this->routeMatch->getParameter('user');
+    if ($user === NULL || $user->id() !== $account->id()) {
       return AccessResult::forbidden();
     }
     return parent::blockAccess($account);
