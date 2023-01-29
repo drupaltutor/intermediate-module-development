@@ -1,0 +1,7 @@
+name: Block Examples
+type: module
+description: Demonstrates how to programmatically create blocks.
+package: DrupalTutor Training
+core_version_requirement: ^10
+dependencies:
+  - drupal:block
