@@ -6,3 +6,10 @@ entity_examples.node_publish_queue:
   requirements:
     _permission: 'edit any article content'
 
+entity_examples.node_publish:
+  path: '/node-publish/{node}'
+  defaults:
+    _title: 'Node Publish'
+    _controller: '\Drupal\entity_examples\Controller\EntityExamplesController::nodePublish'
+  requirements:
+    _permission: 'edit any article content'

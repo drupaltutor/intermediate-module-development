@@ -5,6 +5,9 @@ namespace Drupal\entity_examples\Controller;
 use Drupal\Core\Cache\CacheableMetadata;
 use Drupal\Core\Controller\ControllerBase;
 use Drupal\Core\Link;
+use Drupal\Core\Url;
+use Drupal\node\NodeInterface;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 
 /**
  * Returns responses for Entity Examples routes.
@@ -40,7 +43,7 @@ class EntityExamplesController extends ControllerBase {
         ];
         $build[$nid]['publish'] = Link::createFromRoute(
           $this->t('Publish Post'),
-          'entity.node.canonical',
+          'entity_examples.node_publish',
           ['node' => $node->id()],
           ['attributes' => ['class' => ['button']]],
         )->toRenderable();
@@ -53,6 +56,18 @@ class EntityExamplesController extends ControllerBase {
 
 
     return $build;
+  }
+
+  public function nodePublish(NodeInterface $node) {
+    if ($node->get('status')->value === "0") {
+      $node->set('status', 1)
+        ->setRevisionLogMessage($this->t('Published from the queue'))
+        ->save();
+      $this->messenger()->addStatus($this->t('Published %node', ['%node' => $node->label()]));
+    }
+    return new RedirectResponse(
+      Url::fromRoute('entity_examples.node_publish_queue')->toString()
+    );
   }
 
 }
