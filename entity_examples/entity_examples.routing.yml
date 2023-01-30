@@ -1,0 +1,8 @@
+entity_examples.node_publish_queue:
+  path: '/node-publish-queue'
+  defaults:
+    _title: 'Node Publish Queue'
+    _controller: '\Drupal\entity_examples\Controller\EntityExamplesController::nodePublishQueue'
+  requirements:
+    _permission: 'edit any article content'
+

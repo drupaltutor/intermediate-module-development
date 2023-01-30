@@ -1,0 +1,5 @@
+name: Entity Examples
+type: module
+description: Demonstrates how to use the Entity API
+package: DrupalTutor Training
+core_version_requirement: ^9 || ^10
