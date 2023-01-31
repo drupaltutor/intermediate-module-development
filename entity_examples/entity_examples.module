@@ -1,0 +1,37 @@
+<?php
+
+/**
+ * Implements hook_mail().
+ */
+function entity_examples_mail($key, &$message, $params) {
+  if ($key === 'article_published') {
+    $message['subject'] = t('New Article Published: @title', ['@title' => $params['title']]);
+    $message['body'][] = t('The following article was just published on the website.');
+    $message['body'][] = t('Title: @title', ['@title' => $params['title']]);
+    $message['body'][] = t('URL: @url', ['@url' => $params['url']]);
+  }
+}
+
+/**
+ * Implements hook_entity_insert().
+ */
+function entity_examples_entity_insert(\Drupal\Core\Entity\EntityInterface $entity) {
+  if ($entity->getEntityTypeId() === 'node' && $entity->bundle() === 'article') {
+    /** @var \Drupal\node\NodeInterface $entity */
+    if ($entity->isPublished()) {
+      $params = [
+        'title' => $entity->label(),
+        'url' => $entity->toUrl('canonical', ['absolute' => TRUE])->toString(),
+      ];
+      /** @var \Drupal\Core\Mail\MailManagerInterface $mail_manager */
+      $mail_manager = \Drupal::service('plugin.manager.mail');
+      $mail_manager->mail(
+        'entity_examples',
+        'article_published',
+        'webmaster@example.com',
+        \Drupal::languageManager()->getDefaultLanguage()->getId(),
+        $params
+      );
+    }
+  }
+}
