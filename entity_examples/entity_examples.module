@@ -19,19 +19,7 @@ function entity_examples_entity_insert(\Drupal\Core\Entity\EntityInterface $enti
   if ($entity->getEntityTypeId() === 'node' && $entity->bundle() === 'article') {
     /** @var \Drupal\node\NodeInterface $entity */
     if ($entity->isPublished()) {
-      $params = [
-        'title' => $entity->label(),
-        'url' => $entity->toUrl('canonical', ['absolute' => TRUE])->toString(),
-      ];
-      /** @var \Drupal\Core\Mail\MailManagerInterface $mail_manager */
-      $mail_manager = \Drupal::service('plugin.manager.mail');
-      $mail_manager->mail(
-        'entity_examples',
-        'article_published',
-        'webmaster@example.com',
-        \Drupal::languageManager()->getDefaultLanguage()->getId(),
-        $params
-      );
+      entity_examples_send_article_published_email($entity);
     }
   }
 }
