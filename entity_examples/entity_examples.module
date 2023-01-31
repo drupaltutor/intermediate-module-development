@@ -35,3 +35,38 @@ function entity_examples_entity_insert(\Drupal\Core\Entity\EntityInterface $enti
     }
   }
 }
+
+/**
+ * Implements hook_node_update().
+ */
+function entity_examples_node_update(\Drupal\node\NodeInterface $node) {
+  if ($node->bundle() === 'article' && $node->isPublished()) {
+    /** @var \Drupal\node\NodeInterface $original */
+    $original = $node->original;
+    if ($original === NULL || !$original->isPublished()) {
+      entity_examples_send_article_published_email($node);
+    }
+  }
+}
+
+/**
+ * Send notification about newly published article
+ *
+ * @param \Drupal\node\NodeInterface $node
+ * @return void
+ */
+function entity_examples_send_article_published_email(\Drupal\node\NodeInterface $node) {
+  $params = [
+    'title' => $node->label(),
+    'url' => $node->toUrl('canonical', ['absolute' => TRUE])->toString(),
+  ];
+  /** @var \Drupal\Core\Mail\MailManagerInterface $mail_manager */
+  $mail_manager = \Drupal::service('plugin.manager.mail');
+  $mail_manager->mail(
+    'entity_examples',
+    'article_published',
+    'webmaster@example.com',
+    \Drupal::languageManager()->getDefaultLanguage()->getId(),
+    $params
+  );
+}
