@@ -58,3 +58,16 @@ function entity_examples_send_article_published_email(\Drupal\node\NodeInterface
     $params
   );
 }
+
+/**
+ * Implements hook_ENTITY_TYPE_presave().
+ */
+function entity_examples_node_presave(\Drupal\node\NodeInterface $node) {
+  if ($node->bundle() === 'article' && $node->isPublished()) {
+    /** @var \Drupal\node\NodeInterface $original */
+    $original = $node->original;
+    if ($original === NULL || !$original->isPublished()) {
+      $node->set('created', \Drupal::time()->getRequestTime());
+    }
+  }
+}
