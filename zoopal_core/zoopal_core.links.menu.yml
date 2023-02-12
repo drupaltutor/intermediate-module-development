@@ -1,0 +1,6 @@
+zoopal_core.admin:
+  title: ZooPal
+  description: ZooPal zoo management system
+  route_name:  zoopal_core.admin
+  parent: system.admin
+  weight: -9

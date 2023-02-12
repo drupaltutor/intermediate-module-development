@@ -1,0 +1,7 @@
+zoopal_core.admin:
+  path: '/admin/zoopal'
+  defaults:
+    _controller: '\Drupal\system\Controller\SystemController::systemAdminMenuBlockPage'
+    _title: 'ZooPal'
+  requirements:
+    _permission: 'access administration pages'
