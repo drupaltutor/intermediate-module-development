@@ -71,3 +71,34 @@ function entity_examples_node_presave(\Drupal\node\NodeInterface $node) {
     }
   }
 }
+
+/**
+ * Implements hook_ENTITY_TYPE_delete().
+ */
+function entity_examples_node_delete(\Drupal\node\NodeInterface $node) {
+  if ($node->hasField('field_tags') && !$node->get('field_tags')->isEmpty()) {
+    $node_storage = \Drupal::entityTypeManager()->getStorage('node');
+    $term_storage = \Drupal::entityTypeManager()->getStorage('taxonomy_term');
+    foreach ($node->get('field_tags') as $item) {
+      $term_id = $item->target_id;
+      $remaining_taggings_count = $node_storage->getQuery()
+        ->accessCheck(FALSE)
+        ->condition('field_tags', $term_id)
+        ->condition('nid', $node->id(), '<>')
+        ->count()
+        ->execute();
+      if ($remaining_taggings_count === 0) {
+        $tag = $term_storage->load($term_id);
+        if ($tag !== NULL) {
+          $tag->delete();
+          \Drupal::messenger()->addWarning(
+            t(
+              'Deleted tag @tag, because no remaining articles were tagged with it.',
+              ['@tag' => $tag->label()]
+            )
+          );
+        }
+      }
+    }
+  }
+}
