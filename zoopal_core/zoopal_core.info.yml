@@ -1,0 +1,5 @@
+name: ZooPal Core
+type: module
+description: General functionality for the ZooPal system
+package: ZooPal
+core_version_requirement: ^10
