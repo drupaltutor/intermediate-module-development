@@ -1,0 +1,8 @@
+<?php
+
+/**
+ * Implements hook_toolbar_alter().
+ */
+function zoopal_core_toolbar_alter(&$items) {
+  $items['administration']['#attached']['library'][] = 'zoopal_core/toolbar';
+}

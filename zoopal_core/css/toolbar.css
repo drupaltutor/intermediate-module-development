@@ -1,0 +1,8 @@
+.toolbar-icon-zoopal-core-admin:before {
+  background-image: url(../images/monkey-face.svg);
+  filter: invert(48%) sepia(0%) saturate(0%) hue-rotate(353deg) brightness(97%) contrast(86%);
+}
+.toolbar-icon-zoopal-core-admin.is-active:before {
+  background-image: url(../images/monkey-face.svg);
+  filter: none;
+}
