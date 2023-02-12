@@ -1,0 +1,7 @@
+name: ZooPal Creature
+type: module
+description: Provides the ability to store creature information.
+package: ZooPal
+core_version_requirement: ^10
+dependencies:
+  - zoopal_core:zoopal_core
