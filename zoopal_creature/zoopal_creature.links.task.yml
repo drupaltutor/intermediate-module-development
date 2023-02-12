@@ -1,0 +1,22 @@
+entity.zoopal_creature.settings:
+  title: 'Settings'
+  route_name: entity.zoopal_creature.settings
+  base_route: entity.zoopal_creature.settings
+entity.zoopal_creature.view:
+  title: 'View'
+  route_name: entity.zoopal_creature.canonical
+  base_route: entity.zoopal_creature.canonical
+entity.zoopal_creature.edit_form:
+  title: 'Edit'
+  route_name: entity.zoopal_creature.edit_form
+  base_route: entity.zoopal_creature.canonical
+entity.zoopal_creature.delete_form:
+  title: 'Delete'
+  route_name: entity.zoopal_creature.delete_form
+  base_route: entity.zoopal_creature.canonical
+  weight: 10
+entity.zoopal_creature.collection:
+  title: 'Creatures'
+  route_name: entity.zoopal_creature.collection
+  base_route: system.admin_content
+  weight: 10

@@ -1,0 +1,11 @@
+administer creature:
+  title: 'Administer creature settings'
+  restrict access: true
+delete creature:
+  title: Delete creature
+create creature:
+  title: Create creature
+view creature:
+  title: View creature
+edit creature:
+  title: Edit creature

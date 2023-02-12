@@ -1,0 +1,10 @@
+entity.zoopal_creature.edit_form:
+  route_name: entity.zoopal_creature.edit_form
+  group: zoopal_creature
+  title: Edit
+
+entity.zoopal_creature.delete_form:
+  route_name: entity.zoopal_creature.delete_form
+  group: zoopal_creature
+  title: Delete
+  weight: 10

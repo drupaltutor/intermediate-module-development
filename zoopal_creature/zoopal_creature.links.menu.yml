@@ -1,0 +1,10 @@
+entity.zoopal_creature.settings:
+  title: 'Creature'
+  description: 'Configure a Creature entity type.'
+  route_name:  entity.zoopal_creature.settings
+  parent: system.admin_structure
+entity.zoopal_creature.collection:
+  title: 'Creatures'
+  description: 'List of creatures.'
+  route_name: entity.zoopal_creature.collection
+  parent: system.admin_content

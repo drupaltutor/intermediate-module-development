@@ -1,0 +1,7 @@
+entity.zoopal_creature.settings:
+  path: 'admin/structure/zoopal-creature'
+  defaults:
+    _form: '\Drupal\zoopal_creature\Form\ZoopalCreatureSettingsForm'
+    _title: 'Creature'
+  requirements:
+    _permission: 'administer creature'

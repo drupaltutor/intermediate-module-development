@@ -1,0 +1,92 @@
+<?php
+
+/**
+ * @file
+ * Provides a creature entity type.
+ */
+
+use Drupal\Core\Render\Element;
+use Drupal\user\UserInterface;
+use Drupal\zoopal_creature\Entity\ZoopalCreature;
+
+/**
+ * Implements hook_theme().
+ */
+function zoopal_creature_theme() {
+  return [
+    'zoopal_creature' => [
+      'render element' => 'elements',
+    ],
+  ];
+}
+
+/**
+ * Prepares variables for creature templates.
+ *
+ * Default template: zoopal-creature.html.twig.
+ *
+ * @param array $variables
+ *   An associative array containing:
+ *   - elements: An associative array containing the creature information and any
+ *     fields attached to the entity.
+ *   - attributes: HTML attributes for the containing element.
+ */
+function template_preprocess_zoopal_creature(array &$variables) {
+  $variables['view_mode'] = $variables['elements']['#view_mode'];
+  foreach (Element::children($variables['elements']) as $key) {
+    $variables['content'][$key] = $variables['elements'][$key];
+  }
+}
+
+/**
+ * Implements hook_user_cancel().
+ */
+function zoopal_creature_user_cancel($edit, UserInterface $account, $method) {
+  switch ($method) {
+    case 'user_cancel_block_unpublish':
+      // Unpublish creatures.
+      $storage = \Drupal::entityTypeManager()->getStorage('zoopal_creature');
+      $zoopal_creature_ids = $storage->getQuery()
+        ->condition('uid', $account->id())
+        ->condition('status', 1)
+        ->execute();
+      foreach ($storage->loadMultiple($zoopal_creature_ids) as $zoopal_creature) {
+        $zoopal_creature->set('status', FALSE);
+        $zoopal_creature->save();
+      }
+      break;
+
+    case 'user_cancel_reassign':
+      // Anonymize creatures.
+      $storage = \Drupal::entityTypeManager()->getStorage('zoopal_creature');
+      $zoopal_creature_ids = $storage->getQuery()
+        ->condition('uid', $account->id())
+        ->execute();
+      foreach ($storage->loadMultiple($zoopal_creature_ids) as $zoopal_creature) {
+        $zoopal_creature->setOwnerId(0);
+        $zoopal_creature->save();
+      }
+      break;
+  }
+}
+
+/**
+ * Implements hook_ENTITY_TYPE_predelete() for user entities.
+ */
+function zoopal_creature_user_predelete(UserInterface $account) {
+  // Delete creatures.
+  $storage = \Drupal::entityTypeManager()->getStorage('zoopal_creature');
+  $zoopal_creature_ids = $storage->getQuery()
+    ->condition('uid', $account->id())
+    ->execute();
+  $zoopal_creatures = $storage->loadMultiple($zoopal_creature_ids);
+  $storage->delete($zoopal_creatures);
+  // Delete old revisions.
+  $zoopal_creature_ids = $storage->getQuery()
+    ->allRevisions()
+    ->condition('uid', $account->id())
+    ->execute();
+  foreach (array_keys($zoopal_creature_ids) as $revision_id) {
+    $storage->deleteRevision($revision_id);
+  }
+}
