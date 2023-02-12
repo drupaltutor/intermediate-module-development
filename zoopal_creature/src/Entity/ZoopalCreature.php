@@ -20,7 +20,7 @@ use Drupal\zoopal_creature\ZoopalCreatureInterface;
  *   label_singular = @Translation("creature"),
  *   label_plural = @Translation("creatures"),
  *   label_count = @PluralTranslation(
- *     singular = "@count creatures",
+ *     singular = "@count creature",
  *     plural = "@count creatures",
  *   ),
  *   handlers = {
@@ -57,11 +57,11 @@ use Drupal\zoopal_creature\ZoopalCreatureInterface;
  *     "revision_log_message" = "revision_log",
  *   },
  *   links = {
- *     "collection" = "/admin/content/zoopal-creature",
- *     "add-form" = "/admin/zoopal/creature/add",
- *     "canonical" = "/admin/zoopal/creature/{zoopal_creature}",
- *     "edit-form" = "/admin/zoopal/creature/{zoopal_creature}/edit",
- *     "delete-form" = "/admin/zoopal/creature/{zoopal_creature}/delete",
+ *     "collection" = "/admin/zoopal/creatures",
+ *     "add-form" = "/admin/zoopal/creatures/add",
+ *     "canonical" = "/creature/{zoopal_creature}",
+ *     "edit-form" = "/creature/{zoopal_creature}/edit",
+ *     "delete-form" = "/creature/{zoopal_creature}/delete",
  *   },
  *   field_ui_base_route = "entity.zoopal_creature.settings",
  * )
