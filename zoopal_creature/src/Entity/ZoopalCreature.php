@@ -47,7 +47,7 @@ use Drupal\zoopal_creature\ZoopalCreatureInterface;
  *     "id" = "id",
  *     "revision" = "revision_id",
  *     "langcode" = "langcode",
- *     "label" = "label",
+ *     "label" = "name",
  *     "uuid" = "uuid",
  *     "owner" = "uid",
  *   },
@@ -89,10 +89,10 @@ class ZoopalCreature extends RevisionableContentEntityBase implements ZoopalCrea
 
     $fields = parent::baseFieldDefinitions($entity_type);
 
-    $fields['label'] = BaseFieldDefinition::create('string')
+    $fields['name'] = BaseFieldDefinition::create('string')
       ->setRevisionable(TRUE)
       ->setTranslatable(TRUE)
-      ->setLabel(t('Label'))
+      ->setLabel(t('Name'))
       ->setRequired(TRUE)
       ->setSetting('max_length', 255)
       ->setDisplayOptions('form', [
@@ -111,7 +111,10 @@ class ZoopalCreature extends RevisionableContentEntityBase implements ZoopalCrea
       ->setRevisionable(TRUE)
       ->setLabel(t('Status'))
       ->setDefaultValue(TRUE)
-      ->setSetting('on_label', 'Enabled')
+      ->setSettings([
+        'on_label' => 'Published',
+        'off_label' => 'Unpublished',
+        ])
       ->setDisplayOptions('form', [
         'type' => 'boolean_checkbox',
         'settings' => [
@@ -122,10 +125,10 @@ class ZoopalCreature extends RevisionableContentEntityBase implements ZoopalCrea
       ->setDisplayConfigurable('form', TRUE)
       ->setDisplayOptions('view', [
         'type' => 'boolean',
-        'label' => 'above',
+        'label' => 'inline',
         'weight' => 0,
         'settings' => [
-          'format' => 'enabled-disabled',
+          'format' => 'default',
         ],
       ])
       ->setDisplayConfigurable('view', TRUE);
@@ -141,7 +144,7 @@ class ZoopalCreature extends RevisionableContentEntityBase implements ZoopalCrea
       ->setDisplayConfigurable('form', TRUE)
       ->setDisplayOptions('view', [
         'type' => 'text_default',
-        'label' => 'above',
+        'label' => 'hidden',
         'weight' => 10,
       ])
       ->setDisplayConfigurable('view', TRUE);
