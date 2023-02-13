@@ -1,0 +1,7 @@
+zoopal_creature.settings:
+  type: config_object
+  label: 'ZooPal Creature Settings'
+  mapping:
+    revision_default:
+      type: boolean
+      label: 'Create new revisions by default'
