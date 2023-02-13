@@ -13,6 +13,24 @@ class ZoopalCreatureForm extends ContentEntityForm {
   /**
    * {@inheritdoc}
    */
+  public function form(array $form, FormStateInterface $form_state) {
+    $form = parent::form($form, $form_state);
+    $form['authoring_information'] = [
+      '#type' => 'details',
+      '#title' => $this->t('Authoring information'),
+      '#open' => FALSE,
+      '#group' => 'advanced',
+      '#weight' => 10,
+    ];
+    $form['uid']['#group'] = 'authoring_information';
+    $form['created']['#group'] = 'authoring_information';
+
+    return $form;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
   public function save(array $form, FormStateInterface $form_state) {
     $result = parent::save($form, $form_state);
 
