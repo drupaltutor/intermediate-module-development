@@ -107,6 +107,25 @@ class ZoopalCreature extends RevisionableContentEntityBase implements ZoopalCrea
       ])
       ->setDisplayConfigurable('view', TRUE);
 
+    $fields['birth_date'] = BaseFieldDefinition::create('datetime')
+      ->setLabel(t('Birth Date'))
+      ->setSetting('datetime_type', 'date')
+      ->setDisplayOptions('form', [
+        'type' => 'datetime_default',
+        'weight' => '1',
+      ])
+      ->setDisplayConfigurable('form', TRUE)
+      ->setDisplayOptions('view', [
+        'type' => 'datetime_custom',
+        'weight' => '1',
+        'label' => 'inline',
+        'settings' => [
+          'timezone_override' => '',
+          'date_format' => 'F j, Y',
+        ],
+      ])
+      ->setDisplayConfigurable('view', TRUE);
+
     $fields['status'] = BaseFieldDefinition::create('boolean')
       ->setRevisionable(TRUE)
       ->setLabel(t('Status'))
