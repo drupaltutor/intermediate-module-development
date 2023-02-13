@@ -25,6 +25,9 @@ class ZoopalCreatureForm extends ContentEntityForm {
     $form['uid']['#group'] = 'authoring_information';
     $form['created']['#group'] = 'authoring_information';
 
+    $config = \Drupal::config('zoopal_creature.settings');
+    $form['revision']['#default_value'] = $config->get('revision_default');
+
     return $form;
   }
 
