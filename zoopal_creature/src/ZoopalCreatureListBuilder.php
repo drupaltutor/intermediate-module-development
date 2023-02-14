@@ -67,8 +67,8 @@ class ZoopalCreatureListBuilder extends EntityListBuilder {
    * {@inheritdoc}
    */
   public function buildHeader() {
-    $header['id'] = $this->t('ID');
-    $header['label'] = $this->t('Label');
+    $header['name'] = $this->t('Name');
+    $header['birth_date'] = $this->t('Birth Date');
     $header['status'] = $this->t('Status');
     $header['uid'] = $this->t('Author');
     $header['created'] = $this->t('Created');
@@ -81,8 +81,8 @@ class ZoopalCreatureListBuilder extends EntityListBuilder {
    */
   public function buildRow(EntityInterface $entity) {
     /** @var \Drupal\zoopal_creature\ZoopalCreatureInterface $entity */
-    $row['id'] = $entity->id();
-    $row['label'] = $entity->toLink();
+    $row['name'] = $entity->toLink();
+    $row['birth_date'] = !$entity->get('birth_date')->isEmpty() ? $entity->get('birth_date')->value : $this->t('Unknown');
     $row['status'] = $entity->get('status')->value ? $this->t('Enabled') : $this->t('Disabled');
     $row['uid']['data'] = [
       '#theme' => 'username',
