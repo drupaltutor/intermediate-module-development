@@ -61,4 +61,14 @@ class ZoopalCreatureAccessControlHandler extends EntityAccessControlHandler {
     );
   }
 
+  protected function checkFieldAccess($operation, FieldDefinitionInterface $field_definition, AccountInterface $account, FieldItemListInterface $items = NULL) {
+    if ($operation === 'edit' && $field_definition->getName() === 'uid') {
+      return AccessResult::allowedIfHasPermission(
+        $account,
+        'administer creature'
+      );
+    }
+    return AccessResult::allowed();
+  }
+
 }
