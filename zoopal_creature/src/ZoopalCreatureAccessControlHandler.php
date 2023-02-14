@@ -5,6 +5,8 @@ namespace Drupal\zoopal_creature;
 use Drupal\Core\Access\AccessResult;
 use Drupal\Core\Entity\EntityAccessControlHandler;
 use Drupal\Core\Entity\EntityInterface;
+use Drupal\Core\Field\FieldDefinitionInterface;
+use Drupal\Core\Field\FieldItemListInterface;
 use Drupal\Core\Session\AccountInterface;
 
 /**
@@ -19,7 +21,13 @@ class ZoopalCreatureAccessControlHandler extends EntityAccessControlHandler {
 
     switch ($operation) {
       case 'view':
-        return AccessResult::allowedIfHasPermission($account, 'view creature');
+        /** @var ZoopalCreatureInterface $entity */
+        if ($account->hasPermission('view unpublished creatures')) {
+          return AccessResult::allowed();
+        }
+        return AccessResult::allowedIfHasPermission($account, 'view creature')
+          ->andIf(AccessResult::allowedIf(!empty($entity->get('status')->value)));
+
 
       case 'update':
         return AccessResult::allowedIfHasPermissions(

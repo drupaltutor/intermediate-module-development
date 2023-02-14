@@ -9,3 +9,5 @@ view creature:
   title: View creature
 edit creature:
   title: Edit creature
+view unpublished creatures:
+  title: View unpublished creatures
