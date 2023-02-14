@@ -47,6 +47,7 @@ function zoopal_creature_user_cancel($edit, UserInterface $account, $method) {
       // Unpublish creatures.
       $storage = \Drupal::entityTypeManager()->getStorage('zoopal_creature');
       $zoopal_creature_ids = $storage->getQuery()
+        ->accessCheck(FALSE)
         ->condition('uid', $account->id())
         ->condition('status', 1)
         ->execute();
@@ -60,6 +61,7 @@ function zoopal_creature_user_cancel($edit, UserInterface $account, $method) {
       // Anonymize creatures.
       $storage = \Drupal::entityTypeManager()->getStorage('zoopal_creature');
       $zoopal_creature_ids = $storage->getQuery()
+        ->accessCheck(FALSE)
         ->condition('uid', $account->id())
         ->execute();
       foreach ($storage->loadMultiple($zoopal_creature_ids) as $zoopal_creature) {
@@ -77,12 +79,14 @@ function zoopal_creature_user_predelete(UserInterface $account) {
   // Delete creatures.
   $storage = \Drupal::entityTypeManager()->getStorage('zoopal_creature');
   $zoopal_creature_ids = $storage->getQuery()
+    ->accessCheck(FALSE)
     ->condition('uid', $account->id())
     ->execute();
   $zoopal_creatures = $storage->loadMultiple($zoopal_creature_ids);
   $storage->delete($zoopal_creatures);
   // Delete old revisions.
   $zoopal_creature_ids = $storage->getQuery()
+    ->accessCheck(FALSE)
     ->allRevisions()
     ->condition('uid', $account->id())
     ->execute();

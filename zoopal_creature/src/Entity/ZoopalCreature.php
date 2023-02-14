@@ -42,7 +42,7 @@ use Drupal\zoopal_creature\ZoopalCreatureInterface;
  *   revision_data_table = "zoopal_creature_field_revision",
  *   show_revision_ui = TRUE,
  *   translatable = TRUE,
- *   admin_permission = "administer zoopal creature",
+ *   admin_permission = "administer creature",
  *   entity_keys = {
  *     "id" = "id",
  *     "revision" = "revision_id",
