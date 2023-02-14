@@ -47,6 +47,7 @@ function zoopal_habitat_user_cancel($edit, UserInterface $account, $method) {
       // Unpublish habitats.
       $storage = \Drupal::entityTypeManager()->getStorage('zoopal_habitat');
       $zoopal_habitat_ids = $storage->getQuery()
+        ->accessCheck(FALSE)
         ->condition('uid', $account->id())
         ->condition('status', 1)
         ->execute();
@@ -60,6 +61,7 @@ function zoopal_habitat_user_cancel($edit, UserInterface $account, $method) {
       // Anonymize habitats.
       $storage = \Drupal::entityTypeManager()->getStorage('zoopal_habitat');
       $zoopal_habitat_ids = $storage->getQuery()
+        ->accessCheck(FALSE)
         ->condition('uid', $account->id())
         ->execute();
       foreach ($storage->loadMultiple($zoopal_habitat_ids) as $zoopal_habitat) {
@@ -77,6 +79,7 @@ function zoopal_habitat_user_predelete(UserInterface $account) {
   // Delete habitats.
   $storage = \Drupal::entityTypeManager()->getStorage('zoopal_habitat');
   $zoopal_habitat_ids = $storage->getQuery()
+    ->accessCheck(FALSE)
     ->condition('uid', $account->id())
     ->execute();
   $zoopal_habitats = $storage->loadMultiple($zoopal_habitat_ids);

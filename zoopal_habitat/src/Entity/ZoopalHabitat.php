@@ -20,7 +20,7 @@ use Drupal\zoopal_habitat\ZoopalHabitatInterface;
  *   label_singular = @Translation("habitat"),
  *   label_plural = @Translation("habitats"),
  *   label_count = @PluralTranslation(
- *     singular = "@count habitats",
+ *     singular = "@count habitat",
  *     plural = "@count habitats",
  *   ),
  *   bundle_label = @Translation("Habitat type"),
@@ -43,7 +43,7 @@ use Drupal\zoopal_habitat\ZoopalHabitatInterface;
  *   revision_data_table = "zoopal_habitat_field_revision",
  *   show_revision_ui = TRUE,
  *   translatable = TRUE,
- *   admin_permission = "administer zoopal habitat types",
+ *   admin_permission = "administer habitat types",
  *   entity_keys = {
  *     "id" = "id",
  *     "revision" = "revision_id",
@@ -59,7 +59,7 @@ use Drupal\zoopal_habitat\ZoopalHabitatInterface;
  *     "revision_log_message" = "revision_log",
  *   },
  *   links = {
- *     "collection" = "/admin/content/zoopal-habitat",
+ *     "collection" = "/admin/zoopal/habitat",
  *     "add-form" = "/habitat/add/{zoopal_habitat_type}",
  *     "add-page" = "/habitat/add",
  *     "canonical" = "/habitat/{zoopal_habitat}",

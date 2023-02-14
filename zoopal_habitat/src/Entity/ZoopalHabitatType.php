@@ -12,9 +12,9 @@ use Drupal\Core\Config\Entity\ConfigEntityBundleBase;
  *   label = @Translation("Habitat type"),
  *   label_collection = @Translation("Habitat types"),
  *   label_singular = @Translation("habitat type"),
- *   label_plural = @Translation("habitats types"),
+ *   label_plural = @Translation("habitat types"),
  *   label_count = @PluralTranslation(
- *     singular = "@count habitats type",
+ *     singular = "@count habitat type",
  *     plural = "@count habitats types",
  *   ),
  *   handlers = {
@@ -37,10 +37,10 @@ use Drupal\Core\Config\Entity\ConfigEntityBundleBase;
  *     "uuid" = "uuid"
  *   },
  *   links = {
- *     "add-form" = "/admin/structure/zoopal_habitat_types/add",
- *     "edit-form" = "/admin/structure/zoopal_habitat_types/manage/{zoopal_habitat_type}",
- *     "delete-form" = "/admin/structure/zoopal_habitat_types/manage/{zoopal_habitat_type}/delete",
- *     "collection" = "/admin/structure/zoopal_habitat_types"
+ *     "add-form" = "/admin/zoopal/config/habitat-types/add",
+ *     "edit-form" = "/admin/zoopal/config/habitat-types/manage/{zoopal_habitat_type}",
+ *     "delete-form" = "/admin/zoopal/config/habitat-types/manage/{zoopal_habitat_type}/delete",
+ *     "collection" = "/admin/zoopal/config/habitat-types"
  *   },
  *   config_export = {
  *     "id",

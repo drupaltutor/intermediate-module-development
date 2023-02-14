@@ -1,5 +1,11 @@
 entity.zoopal_habitat_type.collection:
   title: 'Habitat types'
   description: 'Manage and CRUD actions on Habitat type.'
-  parent: system.admin_structure
+  parent: zoopal_core.config
   route_name: entity.zoopal_habitat_type.collection
+
+entity.zoopal_habitat.collection:
+  title: 'Habitats'
+  description: 'List of habitats.'
+  route_name: entity.zoopal_habitat.collection
+  parent: zoopal_core.admin
