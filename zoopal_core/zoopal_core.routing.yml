@@ -5,3 +5,11 @@ zoopal_core.admin:
     _title: 'ZooPal'
   requirements:
     _permission: 'access administration pages'
+
+zoopal_core.config:
+  path: '/admin/zoopal/config'
+  defaults:
+    _controller: '\Drupal\system\Controller\SystemController::systemAdminMenuBlockPage'
+    _title: 'Configuration'
+  requirements:
+    _permission: 'access administration pages'

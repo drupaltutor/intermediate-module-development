@@ -4,3 +4,10 @@ zoopal_core.admin:
   route_name:  zoopal_core.admin
   parent: system.admin
   weight: -9
+
+zoopal_core.config:
+  title: Configuration
+  description: Configuration for ZooPal zoo management system
+  route_name:  zoopal_core.config
+  parent: zoopal_core.admin
+  weight: 10
