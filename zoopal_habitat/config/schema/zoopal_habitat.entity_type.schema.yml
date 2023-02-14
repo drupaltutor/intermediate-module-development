@@ -1,0 +1,12 @@
+zoopal_habitat.zoopal_habitat_type.*:
+  type: config_entity
+  label: 'Habitat type config'
+  mapping:
+    id:
+      type: string
+      label: 'ID'
+    label:
+      type: label
+      label: 'Label'
+    uuid:
+      type: string

@@ -1,0 +1,92 @@
+<?php
+
+/**
+ * @file
+ * Provides a habitat entity type.
+ */
+
+use Drupal\Core\Render\Element;
+use Drupal\user\UserInterface;
+use Drupal\zoopal_habitat\Entity\ZoopalHabitat;
+
+/**
+ * Implements hook_theme().
+ */
+function zoopal_habitat_theme() {
+  return [
+    'zoopal_habitat' => [
+      'render element' => 'elements',
+    ],
+  ];
+}
+
+/**
+ * Prepares variables for habitat templates.
+ *
+ * Default template: zoopal-habitat.html.twig.
+ *
+ * @param array $variables
+ *   An associative array containing:
+ *   - elements: An associative array containing the habitat information and any
+ *     fields attached to the entity.
+ *   - attributes: HTML attributes for the containing element.
+ */
+function template_preprocess_zoopal_habitat(array &$variables) {
+  $variables['view_mode'] = $variables['elements']['#view_mode'];
+  foreach (Element::children($variables['elements']) as $key) {
+    $variables['content'][$key] = $variables['elements'][$key];
+  }
+}
+
+/**
+ * Implements hook_user_cancel().
+ */
+function zoopal_habitat_user_cancel($edit, UserInterface $account, $method) {
+  switch ($method) {
+    case 'user_cancel_block_unpublish':
+      // Unpublish habitats.
+      $storage = \Drupal::entityTypeManager()->getStorage('zoopal_habitat');
+      $zoopal_habitat_ids = $storage->getQuery()
+        ->condition('uid', $account->id())
+        ->condition('status', 1)
+        ->execute();
+      foreach ($storage->loadMultiple($zoopal_habitat_ids) as $zoopal_habitat) {
+        $zoopal_habitat->set('status', FALSE);
+        $zoopal_habitat->save();
+      }
+      break;
+
+    case 'user_cancel_reassign':
+      // Anonymize habitats.
+      $storage = \Drupal::entityTypeManager()->getStorage('zoopal_habitat');
+      $zoopal_habitat_ids = $storage->getQuery()
+        ->condition('uid', $account->id())
+        ->execute();
+      foreach ($storage->loadMultiple($zoopal_habitat_ids) as $zoopal_habitat) {
+        $zoopal_habitat->setOwnerId(0);
+        $zoopal_habitat->save();
+      }
+      break;
+  }
+}
+
+/**
+ * Implements hook_ENTITY_TYPE_predelete() for user entities.
+ */
+function zoopal_habitat_user_predelete(UserInterface $account) {
+  // Delete habitats.
+  $storage = \Drupal::entityTypeManager()->getStorage('zoopal_habitat');
+  $zoopal_habitat_ids = $storage->getQuery()
+    ->condition('uid', $account->id())
+    ->execute();
+  $zoopal_habitats = $storage->loadMultiple($zoopal_habitat_ids);
+  $storage->delete($zoopal_habitats);
+  // Delete old revisions.
+  $zoopal_habitat_ids = $storage->getQuery()
+    ->allRevisions()
+    ->condition('uid', $account->id())
+    ->execute();
+  foreach (array_keys($zoopal_habitat_ids) as $revision_id) {
+    $storage->deleteRevision($revision_id);
+  }
+}

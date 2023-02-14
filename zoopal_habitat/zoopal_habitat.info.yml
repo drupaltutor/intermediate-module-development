@@ -1,0 +1,7 @@
+name: ZooPal Habitat
+type: module
+description: Provides the ability to store habitat information
+package: ZooPal
+core_version_requirement: ^9 || ^10
+dependencies:
+  - zoopal_core:zoopal_core

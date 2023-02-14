@@ -1,0 +1,26 @@
+entity.zoopal_habitat.view:
+  title: 'View'
+  route_name: entity.zoopal_habitat.canonical
+  base_route: entity.zoopal_habitat.canonical
+entity.zoopal_habitat.edit_form:
+  title: 'Edit'
+  route_name: entity.zoopal_habitat.edit_form
+  base_route: entity.zoopal_habitat.canonical
+entity.zoopal_habitat.delete_form:
+  title: 'Delete'
+  route_name: entity.zoopal_habitat.delete_form
+  base_route: entity.zoopal_habitat.canonical
+  weight: 10
+entity.zoopal_habitat.collection:
+  title: 'Habitats'
+  route_name: entity.zoopal_habitat.collection
+  base_route: system.admin_content
+  weight: 10
+entity.zoopal_habitat_type.edit_form:
+  title: 'Edit'
+  route_name: entity.zoopal_habitat_type.edit_form
+  base_route: entity.zoopal_habitat_type.edit_form
+entity.zoopal_habitat_type.collection:
+  title: 'List'
+  route_name: entity.zoopal_habitat_type.collection
+  base_route: entity.zoopal_habitat_type.collection

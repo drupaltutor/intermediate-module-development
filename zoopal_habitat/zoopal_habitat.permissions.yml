@@ -1,0 +1,12 @@
+administer habitat types:
+  title: 'Administer habitat types'
+  description: 'Maintain the types of habitat entity.'
+  restrict access: true
+delete habitat:
+  title: Delete habitat
+create habitat:
+  title: Create habitat
+view habitat:
+  title: View habitat
+edit habitat:
+  title: Edit habitat

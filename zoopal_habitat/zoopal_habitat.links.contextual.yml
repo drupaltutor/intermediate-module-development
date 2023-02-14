@@ -1,0 +1,10 @@
+entity.zoopal_habitat.edit_form:
+  route_name: entity.zoopal_habitat.edit_form
+  group: zoopal_habitat
+  title: Edit
+
+entity.zoopal_habitat.delete_form:
+  route_name: entity.zoopal_habitat.delete_form
+  group: zoopal_habitat
+  title: Delete
+  weight: 10

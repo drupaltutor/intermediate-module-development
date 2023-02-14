@@ -1,0 +1,5 @@
+entity.zoopal_habitat_type.collection:
+  title: 'Habitat types'
+  description: 'Manage and CRUD actions on Habitat type.'
+  parent: system.admin_structure
+  route_name: entity.zoopal_habitat_type.collection
