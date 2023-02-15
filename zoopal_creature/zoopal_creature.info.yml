@@ -5,3 +5,4 @@ package: ZooPal
 core_version_requirement: ^10
 dependencies:
   - zoopal_core:zoopal_core
+  - zoopal_habitat:zoopal_habitat
