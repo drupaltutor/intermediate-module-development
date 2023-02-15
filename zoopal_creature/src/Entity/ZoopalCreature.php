@@ -126,6 +126,30 @@ class ZoopalCreature extends RevisionableContentEntityBase implements ZoopalCrea
       ])
       ->setDisplayConfigurable('view', TRUE);
 
+    $fields['habitat'] = BaseFieldDefinition::create('entity_reference')
+      ->setLabel(t('Habitat'))
+      ->setSetting('target_type', 'zoopal_habitat')
+      ->setDisplayOptions('form', [
+        'type' => 'entity_reference_autocomplete',
+        'weight' => '3',
+        'settings' => [
+          'match_operator' => 'CONTAINS',
+          'match_limit' => '10',
+          'size' => '60',
+          'placeholder' => '',
+        ],
+      ])
+      ->setDisplayConfigurable('form', TRUE)
+      ->setDisplayOptions('view', [
+        'type' => 'entity_reference_label',
+        'weight' => '3',
+        'label' => 'inline',
+        'settings' => [
+          'link' => '1',
+        ],
+      ])
+      ->setDisplayConfigurable('view', TRUE);
+
     $fields['status'] = BaseFieldDefinition::create('boolean')
       ->setRevisionable(TRUE)
       ->setLabel(t('Status'))

@@ -1,0 +1,40 @@
+<?php
+
+use Drupal\Core\Field\BaseFieldDefinition;
+
+/**
+ * Add a habitat entity reference field to creature entities
+ */
+function zoopal_creature_update_10001(&$sandbox) {
+  $field_storage_definition = BaseFieldDefinition::create('entity_reference')
+    ->setLabel(t('Habitat'))
+    ->setSetting('target_type', 'zoopal_habitat')
+    ->setDisplayOptions('form', [
+      'type' => 'entity_reference_autocomplete',
+      'weight' => '3',
+      'settings' => [
+        'match_operator' => 'CONTAINS',
+        'match_limit' => '10',
+        'size' => '60',
+        'placeholder' => '',
+      ],
+    ])
+    ->setDisplayConfigurable('form', TRUE)
+    ->setDisplayOptions('view', [
+      'type' => 'entity_reference_label',
+      'weight' => '3',
+      'label' => 'inline',
+      'settings' => [
+        'link' => '1',
+      ],
+    ])
+    ->setDisplayConfigurable('view', TRUE);
+
+  \Drupal::entityDefinitionUpdateManager()
+    ->installFieldStorageDefinition(
+      'habitat',
+      'zoopal_creature',
+      'zoopal_creature',
+      $field_storage_definition
+    );
+}
