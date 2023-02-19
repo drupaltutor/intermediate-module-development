@@ -1,5 +1,8 @@
 <?php
 
+use Drupal\node\NodeInterface;
+use Drupal\zoopal_creature\Entity\ZoopalCreature;
+
 /**
  * Implements hook_mail().
  */
@@ -101,4 +104,52 @@ function entity_examples_node_delete(\Drupal\node\NodeInterface $node) {
       }
     }
   }
+}
+
+/**
+ * Implements hook_ENTITY_TYPE_insert().
+ */
+function entity_examples_zoopal_creature_insert(ZoopalCreature $creature) {
+  /** @var \Drupal\node\NodeInterface $entity */
+  if (!empty($creature->get('status')->value)) {
+    entity_examples_create_new_creature_article($creature);
+  }
+}
+
+/**
+ * Implements hook_ENTITY_TYPE_update().
+ */
+function entity_examples_zoopal_creature_update(ZoopalCreature $creature) {
+  if (!empty($creature->get('status')->value)) {
+    /** @var ZoopalCreature $original */
+    $original = $creature->original;
+    if ($original === NULL || empty($original->get('status')->value)) {
+      entity_examples_create_new_creature_article($creature);
+    }
+  }
+}
+
+function entity_examples_create_new_creature_article(ZoopalCreature $creature) {
+  $node_storage = \Drupal::entityTypeManager()->getStorage('node');
+
+  $body_text = '<p>';
+  $body_text .= 'We are happy to welcome ' . $creature->get('name')->value
+    . ' to the zoo family. ';
+  if (!$creature->get('habitat')->isEmpty()) {
+    $habitat = $creature->get('habitat')->entity;
+    $body_text .= 'You can view them in the following habitat: ' . $habitat->label();
+  }
+  $body_text .= '</p>';
+
+  /** @var NodeInterface $article */
+  $article = $node_storage->create([
+    'type' => 'article',
+    'title' => t('Introducing @name!', ['@name' => $creature->get('name')->value]),
+    'body' => [
+      'value' => $body_text,
+      'format' => 'basic_html',
+    ],
+  ]);
+  $article->set('status', FALSE);
+  $article->save();
 }
